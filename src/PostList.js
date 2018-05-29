@@ -14,6 +14,12 @@ export default class PostList extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({isLoading: true});
         fetch(`http://jsonplaceholder.typicode.com/posts?userId=${nextProps.userId}`)
+            .then((res) => {
+                if (res.status === 200) {
+                    return res;
+                }
+                throw new Error(res.statusText);
+            })
             .then(res => res.json())
             .then(posts => setTimeout(() => this.setState({
                 posts,

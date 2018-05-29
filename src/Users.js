@@ -14,8 +14,15 @@ export default class Users extends React.Component {
 
     componentDidMount() {
         fetch('http://jsonplaceholder.typicode.com/users')
+            .then((res) => {
+                if (res.status === 200) {
+                    return res;
+                }
+                throw new Error(res.statusText);
+            })
             .then(res => res.json())
-            .then(users => this.setState({users}));
+            .then(users => this.setState({users}))
+            .catch(err => console.log(err));
     }
 
     render() {
